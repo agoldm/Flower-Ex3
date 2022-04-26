@@ -1,0 +1,96 @@
+<style>
+    input[type=text],
+    select {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    input[type=submit] {
+        width: 100%;
+        background-color: #4CAF50;
+        color: #f4511e;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    button {
+        display: inline-block;
+        background-color: #f4511e;
+        border-radius: 10px;
+        border: #f4511e;
+        text-align: center;
+        font-size: 17px;
+        padding: 15px;
+        width: 150px;
+        cursor: pointer;
+        margin: 5px;
+
+    }
+
+    input[type=submit]:hover {
+        background-color: #45a049;
+    }
+</style>
+
+<body>
+    <div>
+        <form id="upload_form" action='/upload_files' enctype='multipart/form-data'>
+
+            <label for="fname">Name</label>
+            <input type="text" id="_name" name="firstname">
+
+            <label for="lname">Color</label>
+            <input type="text" id="_color" name="lastname">
+
+            <label for="lname">Price</label>
+            <input type="text" id="_price" name="lastname">
+
+            <label for="lname">Description</label>
+            <input type="text" id="_description" name="lastname">
+            
+            <label for="files" class="btn">Choose image</label>
+            <input type="file" id="uploaded_file" multiple>
+            <input type="submit" id="upload">
+        </form>
+        <script>
+
+            $(document).ready(function () {
+                $('#upload_form').submit(async function (e) {
+
+                    e.preventDefault();
+
+                    const file = document.getElementById("uploaded_file");
+                    let name = $('#_name').val();
+                    let color = $('#_color').val();
+                    let price = $('#_price').val();
+                    let description = $('#_description').val();
+
+                    const formData = new FormData();
+
+                    formData.append("uploaded_file", file.files[0]);
+                    formData.append("name", name);
+                    formData.append("color", color);
+                    formData.append("price", price);
+                    formData.append("description", description);
+
+                    let res = await fetch(`${BASE_URL}api/flowers`, {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    let json = await res.json();
+
+                });
+            });
+        </script>
+    </div>
+
+</body>
