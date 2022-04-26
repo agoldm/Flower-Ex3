@@ -35,7 +35,6 @@ router.post("/login", async (req, res) => {
 
   if (data.success) return res.json({ login: true, type: data.data.category, username: username });
 
-
   res.json({ login: false });
 
 })
